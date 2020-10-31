@@ -32,6 +32,8 @@ class ViewController: UIViewController {
             drawRotatedSquares()
         case 4:
             drawLines()
+        case 5:
+            drawImageAndText()
         default:
             break
         }
@@ -131,6 +133,35 @@ class ViewController: UIViewController {
             
             ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
             ctx.cgContext.strokePath()
+        }
+        
+        imageView.image = img
+    }
+    
+    private func drawImageAndText() {
+        //Crea un renderizador con el tamaño indicado
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+        
+        let img = renderer.image { ctx in
+            //Estilo de parrafo, alineado al centro
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .center
+            
+            //Diccionario de atributos(parrafo, tamaño y fuente)
+            let attrs: [NSAttributedString.Key: Any] = [
+                .font: UIFont.systemFont(ofSize: 36),
+                .paragraphStyle: paragraphStyle
+            ]
+            
+            //Se envuelve el string y los atributos
+            let string = "The best-laid schemes o'\nmice an' men gang aft agley"
+            let attributedString = NSAttributedString(string: string, attributes: attrs)
+            
+            attributedString.draw(with: CGRect(x: 32, y: 32, width: 448, height: 448), options: .usesLineFragmentOrigin, context: nil)
+            
+            //Cargar imagen y dibujarlo en el contexto
+            let mouse = UIImage(named: "mouse")
+            mouse?.draw(at: CGPoint(x: 300, y: 150))
         }
         
         imageView.image = img
